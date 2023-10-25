@@ -60,11 +60,19 @@ function getPlaylists(){
  */
 function findPlaylistsForVideo(video, playlists){
   let result = [];
+  const hashtag_matcher = /#[^\s]+/;
   const findplaylist = (title) => Array.from(playlists).find((list) => list.snippet.title == title);
   if(video.snippet.title.includes("：")){
     const title = video.snippet.title.split("：")[0];
     const item = findplaylist(title);
     if(item) result.push(item);
+  }
+  let m = video.snippet.description.match(hashtag_matcher);
+  if(m){
+    m.forEach((tag) => {
+      const item = findplaylist(tag.slice(1));
+      if(item) result.push(item);
+    });
   }
   return result;
 }
