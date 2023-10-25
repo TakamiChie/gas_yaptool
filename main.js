@@ -63,8 +63,8 @@ function getPlaylists(){
 
 /**
  * 動画の情報より。該当するプレイリストを取得する。
- * @param {Youtube_v3.Youtube.V3.Schema.SearchResult} 動画の情報。
- * @param {Youtube_v3.Youtube.V3.Schema.Playlist[]} すべてのプレイリストの情報を含む配列。
+ * @param {Youtube_v3.Youtube.V3.Schema.SearchResult} video 動画の情報。
+ * @param {Youtube_v3.Youtube.V3.Schema.Playlist[]} playlists すべてのプレイリストの情報を含む配列。
  * @return {Youtube_v3.Youtube.V3.Schema.Playlist|null} 該当するプレイリスト。プレイリストが見つからない場合はnull。
  */
 function findPlaylistForVideo(video, playlists){
