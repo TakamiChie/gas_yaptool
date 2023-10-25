@@ -9,15 +9,7 @@ function main(){
         console.log("already added");
       }else{
         console.log("added");
-        YouTube.PlaylistItems.insert({
-              snippet: {
-                playlistId: p.id,
-                resourceId: {
-                  videoId: v.id.videoId,
-                  kind: 'youtube#video'
-                }
-              }
-            }, ["snippet"]);
+        addPlaylist(p, v);
       }
     }else{
       console.log(`${v.snippet.title} no playlist`);
@@ -88,4 +80,21 @@ function includeItems(playlist, video){
     playlistId: playlist.id,
     videoId: video.id.videoId
   }).items.length != 0;
+}
+
+/**
+ * プレイリストに動画を追加する。
+ * @param {Youtube_v3.Youtube.V3.Schema.Playlist} playlist プレイリスト 
+ * @param {Youtube_v3.Youtube.V3.Schema.SearchResult} video 動画
+ */
+function addPlaylist(playlist, video){
+  YouTube.PlaylistItems.insert({
+        snippet: {
+          playlistId: playlist.id,
+          resourceId: {
+            videoId: video.id.videoId,
+            kind: 'youtube#video'
+          }
+        }
+      }, ["snippet"]);
 }
