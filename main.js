@@ -5,6 +5,20 @@ function main(){
     const p = findPlaylistForVideo(v, playlist);
     if(p){
       console.log(`${v.snippet.title} find by ${p.snippet.title}`);
+      if(includeItems(p, v)){
+        console.log("already added");
+      }else{
+        console.log("added");
+        YouTube.PlaylistItems.insert({
+              snippet: {
+                playlistId: p.id,
+                resourceId: {
+                  videoId: v.id.videoId,
+                  kind: 'youtube#video'
+                }
+              }
+            }, ["snippet"]);
+      }
     }else{
       console.log(`${v.snippet.title} no playlist`);
     }
@@ -61,4 +75,17 @@ function findPlaylistForVideo(video, playlists){
     if(item) result = item;
   }
   return result;
+}
+
+/**
+ * 指定した動画がプレイリスト内に含まれているかどうかを確認する。
+ * @param {Youtube_v3.Youtube.V3.Schema.Playlist} playlist プレイリスト 
+ * @param {Youtube_v3.Youtube.V3.Schema.SearchResult} video 動画
+ * @return {boolean} 動画がプレイリストに含まれていればtrue。
+ */
+function includeItems(playlist, video){
+  return YouTube.PlaylistItems.list(["snippet"], {
+    playlistId: playlist.id,
+    videoId: video.id.videoId
+  }).items.length != 0;
 }
