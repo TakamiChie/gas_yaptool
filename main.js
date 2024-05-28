@@ -2,26 +2,17 @@ function main(){
   const playlist = getPlaylists();
   const videos = getRecentVideos();
   Array.from(videos).forEach((v) => {
-    const p = findPlaylistForVideo(v, playlist);
-    if(p){
-      console.log(`${v.snippet.title} find by ${p.snippet.title}`);
-      if(includeItems(p, v)){
+    console.log(`>> ${v.snippet.title}`);
+    const playlists = findPlaylistsForVideo(v, playlist);
+    playlists.forEach((playlist) => {
+      console.log(`> playlist ${playlist.snippet.title}`);
+      if(includeItems(playlist, v)){
         console.log("already added");
       }else{
         console.log("added");
-        YouTube.PlaylistItems.insert({
-              snippet: {
-                playlistId: p.id,
-                resourceId: {
-                  videoId: v.id.videoId,
-                  kind: 'youtube#video'
-                }
-              }
-            }, ["snippet"]);
+        addPlaylist(playlist, v);
       }
-    }else{
-      console.log(`${v.snippet.title} no playlist`);
-    }
+    });
   });
 }
 
@@ -65,14 +56,23 @@ function getPlaylists(){
  * 動画の情報より。該当するプレイリストを取得する。
  * @param {Youtube_v3.Youtube.V3.Schema.SearchResult} video 動画の情報。
  * @param {Youtube_v3.Youtube.V3.Schema.Playlist[]} playlists すべてのプレイリストの情報を含む配列。
- * @return {Youtube_v3.Youtube.V3.Schema.Playlist|null} 該当するプレイリスト。プレイリストが見つからない場合はnull。
+ * @return {Youtube_v3.Youtube.V3.Schema.Playlist[]} 該当するプレイリストの配列。
  */
-function findPlaylistForVideo(video, playlists){
-  let result = null;
+function findPlaylistsForVideo(video, playlists){
+  let result = [];
+  const hashtag_matcher = /#[^\s]+/;
+  const findplaylist = (title) => Array.from(playlists).find((list) => list.snippet.title == title);
   if(video.snippet.title.includes("：")){
     const title = video.snippet.title.split("：")[0];
-    const item = Array.from(playlists).find((list) => list.snippet.title == title);
-    if(item) result = item;
+    const item = findplaylist(title);
+    if(item) result.push(item);
+  }
+  let m = video.snippet.description.match(hashtag_matcher);
+  if(m){
+    m.forEach((tag) => {
+      const item = findplaylist(tag.slice(1));
+      if(item) result.push(item);
+    });
   }
   return result;
 }
@@ -88,4 +88,21 @@ function includeItems(playlist, video){
     playlistId: playlist.id,
     videoId: video.id.videoId
   }).items.length != 0;
+}
+
+/**
+ * プレイリストに動画を追加する。
+ * @param {Youtube_v3.Youtube.V3.Schema.Playlist} playlist プレイリスト 
+ * @param {Youtube_v3.Youtube.V3.Schema.SearchResult} video 動画
+ */
+function addPlaylist(playlist, video){
+  YouTube.PlaylistItems.insert({
+        snippet: {
+          playlistId: playlist.id,
+          resourceId: {
+            videoId: video.id.videoId,
+            kind: 'youtube#video'
+          }
+        }
+      }, ["snippet"]);
 }
