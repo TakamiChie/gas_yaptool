@@ -19,7 +19,7 @@ function main(){
       }
     });
   });
-  if(addedVideos.length != 0){
+  if(addedVideos.length != 0 && PropertiesService.getScriptProperties().getProperty("MAILTO")){
     const html = HtmlService.createTemplateFromFile("mail");
     let text = "";
     addedVideos.forEach((v) => {
