@@ -1,6 +1,7 @@
 function main(){
   const playlist = getPlaylists();
   const videos = getRecentVideos();
+  const addedVideos = [];
   Array.from(videos).forEach((v) => {
     console.log(`>> ${v.snippet.title}`);
     const playlists = findPlaylistsForVideo(v, playlist);
@@ -11,9 +12,26 @@ function main(){
       }else{
         console.log("added");
         addPlaylist(playlist, v);
+        addedVideos.push({
+          "video": v.snippet.title,
+          "playlist": playlist.snippet.title
+        });
       }
     });
   });
+  if(addedVideos.length != 0){
+    const html = HtmlService.createTemplateFromFile("mail");
+    let text = "";
+    addedVideos.forEach((v) => {
+      text += `${v.video} -> ${v.playlist}`;
+    });
+    html.text = text;
+    MailApp.sendEmail({
+      to: PropertiesService.getScriptProperties().getProperty("MAILTO"),
+      subject: "Youtube Auto Playlist Tool Notification.",
+      htmlBody: html.evaluate().getContent()
+    })
+  }
 }
 
 /**
