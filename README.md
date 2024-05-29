@@ -15,6 +15,7 @@ YouTubeの動画を、特定のルールにのっとって自動的にプレイ�
 1. `npm install`を実行する
 2. `clasp login`でGoogleアカウントに接続する
 3. `clasp push`でGoogle Apps Scriptにアップロードする
+4. clasp.jsonを編集してrootdirをsrcに変更する(ほかに楽な方法があるかどうかわからない・・・)
 
 ## メール通知機能
 
