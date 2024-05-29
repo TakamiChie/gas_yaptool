@@ -124,3 +124,9 @@ function addPlaylist(playlist, video){
         }
       }, ["snippet"]);
 }
+
+if(typeof module !== "undefined"){
+  module.exports = {
+    findPlaylistsForVideo
+  }
+}
