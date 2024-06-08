@@ -74,9 +74,10 @@ function getPlaylists(){
  * 動画の情報より。該当するプレイリストを取得する。
  * @param {Youtube_v3.Youtube.V3.Schema.SearchResult} video 動画の情報。
  * @param {Youtube_v3.Youtube.V3.Schema.Playlist[]} playlists すべてのプレイリストの情報を含む配列。
+ * @param {Object<string,string>} [keywords] キーワードを示す連想配列
  * @return {Youtube_v3.Youtube.V3.Schema.Playlist[]} 該当するプレイリストの配列。
  */
-function findPlaylistsForVideo(video, playlists){
+function findPlaylistsForVideo(video, playlists, keywords){
   if(!video) return;
   let result = [];
   const hashtag_matcher = /#[^\s]+/g;
