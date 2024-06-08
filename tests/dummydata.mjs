@@ -87,6 +87,7 @@ addSearchResultData("ハッシュタグ指定あり動画", "説明文#プレイ
 addSearchResultData("ハッシュタグ指定あり動画", "説明文#プレイリストなし");
 addSearchResultData("ハッシュタグ複数指定あり動画", "説明文#プレイリストあり #プレイリスト2");
 addSearchResultData("プレイリストあり：ハッシュタグ指定あり動画", "説明文#プレイリスト2");
+addSearchResultData("ハッシュタグ複数指定あり動画", "説明文#プレイリストあり #プレイリスト3");
 addPlaylistData("プレイリストあり");
 addPlaylistData("プレイリスト2");
 module.exports = {searchResult, playLists};

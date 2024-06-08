@@ -78,7 +78,7 @@ function getPlaylists(){
  */
 function findPlaylistsForVideo(video, playlists){
   let result = [];
-  const hashtag_matcher = /#[^\s]+/;
+  const hashtag_matcher = /#[^\s]+/g;
   const findplaylist = (title) => Array.from(playlists).find((list) => list.snippet.title == title);
   if(video.snippet.title.includes("：")){
     const title = video.snippet.title.split("：")[0];
