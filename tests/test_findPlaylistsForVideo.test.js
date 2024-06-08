@@ -32,6 +32,12 @@ describe("正常系", () => {
 });
 
 
+describe("準正常系", () => {
+  it("動画にハッシュタグでプレイリスト指定、該当のプレイリストが片方のみ存在", () => {
+    expect(findPlaylistsForVideo(searchResult[7], playLists).length).toBe(1);
+  });
+});
+
 describe("異常系", () => {
   it("動画なし", () => {
     expect(findPlaylistsForVideo(undefined, playLists).length).toBeUndefined();
