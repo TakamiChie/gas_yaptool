@@ -40,7 +40,7 @@ describe("準正常系", () => {
 
 describe("異常系", () => {
   it("動画なし", () => {
-    expect(findPlaylistsForVideo(undefined, playLists).length).toBeUndefined();
+    expect(findPlaylistsForVideo(undefined, playLists)).toBeUndefined();
   });
 
   it("プレイリストなし", () => {

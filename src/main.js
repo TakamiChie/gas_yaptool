@@ -77,6 +77,7 @@ function getPlaylists(){
  * @return {Youtube_v3.Youtube.V3.Schema.Playlist[]} 該当するプレイリストの配列。
  */
 function findPlaylistsForVideo(video, playlists){
+  if(!video) return;
   let result = [];
   const hashtag_matcher = /#[^\s]+/g;
   const findplaylist = (title) => Array.from(playlists).find((list) => list.snippet.title == title);
