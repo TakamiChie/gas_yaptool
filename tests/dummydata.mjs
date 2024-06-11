@@ -10,6 +10,7 @@ const searchResult = [];
  */
 const playLists = [];
 
+const keywordsStrs = [];
 function addSearchResultData(title, description) {
   const id = searchResult.length + 1;
   searchResult.push({
@@ -88,6 +89,16 @@ addSearchResultData("ハッシュタグ指定あり動画", "説明文#プレイ
 addSearchResultData("ハッシュタグ複数指定あり動画", "説明文#プレイリストあり #プレイリスト2");
 addSearchResultData("プレイリストあり：ハッシュタグ指定あり動画", "説明文#プレイリスト2");
 addSearchResultData("ハッシュタグ複数指定あり動画", "説明文#プレイリストあり #プレイリスト3");
+addSearchResultData("キーワード指定ありテスト動画", "タグなし");
+addSearchResultData("キーワード指定ありテスト動画試験映像", "タグなし");
+addSearchResultData("キーワード指定ありユニーク動画試験映像", "タグなし");
+addSearchResultData("キーワード指定ありテスト動画", "タグあり #プレイリストあり");
+addSearchResultData("プレイリスト2：キーワード指定ありテスト動画試験映像", "タグなし");
+addSearchResultData("キーワード指定ありユニーク動画", "タグなし");
 addPlaylistData("プレイリストあり");
 addPlaylistData("プレイリスト2");
-module.exports = {searchResult, playLists};
+keywordsStrs.push("テスト動画:プレイリストあり");
+keywordsStrs.push("試験映像:プレイリスト2");
+keywordsStrs.push("ユニーク動画:プレイリスト3");
+const keywordsAll = keywordsStrs.join(";");
+module.exports = {searchResult, playLists, keywordsAll};
