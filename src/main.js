@@ -97,6 +97,21 @@ function findPlaylistsForVideo(video, playlists, keywords){
   return result;
 }
 
+
+/**
+ * Google Apps Scriptパラメータのキーワードリストを連想配列に変換する
+ * @param {string} keywords キーワードリスト
+ * @returns キーワード連想配列
+ */
+function keywordsStr2keywordList(keywords) {
+  const result = {};
+  keywords.split(";").forEach((kwd) => {
+    const nv = kwd.split(":");
+    result[nv[0]] = nv[1];
+  })
+  return result;
+}
+
 /**
  * 指定した動画がプレイリスト内に含まれているかどうかを確認する。
  * @param {Youtube_v3.Youtube.V3.Schema.Playlist} playlist プレイリスト 
@@ -129,6 +144,6 @@ function addPlaylist(playlist, video){
 
 if(typeof module !== "undefined"){
   module.exports = {
-    findPlaylistsForVideo
+    findPlaylistsForVideo, keywordsStr2keywordList
   }
 }
