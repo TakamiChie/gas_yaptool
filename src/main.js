@@ -96,7 +96,17 @@ function findPlaylistsForVideo(video, playlists, keywords){
       if(item) result.push(item);
     });
   }
-  return result;
+  // キーワード検出
+  if(keywords){
+    Object.keys(keywords).forEach((k) => {
+      if(video.snippet.title.includes(k)){
+        const item = findplaylist(keywords[k]);
+        if(item) result.push(item);
+      }
+    });
+  }
+  // 重複エントリーの削除
+  return [...new Set(result)];
 }
 
 

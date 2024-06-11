@@ -1,5 +1,6 @@
-const {findPlaylistsForVideo} = require("../src/main");
+const {findPlaylistsForVideo, keywordsStr2keywordList} = require("../src/main");
 const {searchResult, playLists} = require("./dummydata");
+const { keywordsAll } = require("./dummydata.mjs");
 
 describe("正常系", () => {
   it("動画に：でプレイリスト指定、該当のプレイリストあり", () => {
@@ -29,12 +30,36 @@ describe("正常系", () => {
   it("動画に：とハッシュタグでプレイリスト指定、該当のプレイリストが一つずつ存在", () => {
     expect(findPlaylistsForVideo(searchResult[6], playLists).length).toBe(2);
   });
+
+  it("動画にキーワードでプレイリスト指定、該当のプレイリストが一つ存在", () => {
+    expect(findPlaylistsForVideo(searchResult[8], playLists, keywordsStr2keywordList(keywordsAll)).length).toBe(1);
+  });
+
+  it("動画にキーワードでプレイリスト指定、該当のプレイリストが二つ存在", () => {
+    expect(findPlaylistsForVideo(searchResult[9], playLists, keywordsStr2keywordList(keywordsAll)).length).toBe(2);
+  });
+
+  it("動画にキーワードでプレイリスト指定、該当のプレイリストが片方なし", () => {
+    expect(findPlaylistsForVideo(searchResult[10], playLists, keywordsStr2keywordList(keywordsAll)).length).toBe(1);
+  });
 });
 
 
 describe("準正常系", () => {
   it("動画にハッシュタグでプレイリスト指定、該当のプレイリストが片方のみ存在", () => {
     expect(findPlaylistsForVideo(searchResult[7], playLists).length).toBe(1);
+  });
+
+  it("動画にキーワードとハッシュタグでプレイリスト指定、双方指しているプレイリストが同じ", () => {
+    expect(findPlaylistsForVideo(searchResult[11], playLists, keywordsStr2keywordList(keywordsAll)).length).toBe(1);
+  });
+
+  it("動画にキーワードと：でプレイリスト指定、双方指しているプレイリストが一部同じ", () => {
+    expect(findPlaylistsForVideo(searchResult[12], playLists, keywordsStr2keywordList(keywordsAll)).length).toBe(2);
+  });
+
+  it("動画にハッシュタグでプレイリスト指定、該当のプレイリストが一つもない", () => {
+    expect(findPlaylistsForVideo(searchResult[13], playLists, keywordsStr2keywordList(keywordsAll)).length).toBe(0);
   });
 });
 
