@@ -2,9 +2,13 @@ function main(){
   const playlist = getPlaylists();
   const videos = getRecentVideos();
   const addedVideos = [];
+  let keywords = undefined;
+  if(PropertiesService.getScriptProperties().getProperty("KEYWORDS")){
+    keywords = keywordsStr2keywordList(PropertiesService.getScriptProperties().getProperty("KEYWORDS"));
+  }
   Array.from(videos).forEach((v) => {
     console.log(`>> ${v.snippet.title}`);
-    const playlists = findPlaylistsForVideo(v, playlist);
+    const playlists = findPlaylistsForVideo(v, playlist, keywords);
     playlists.forEach((playlist) => {
       console.log(`> playlist ${playlist.snippet.title}`);
       if(includeItems(playlist, v)){
