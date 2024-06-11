@@ -81,12 +81,14 @@ function findPlaylistsForVideo(video, playlists, keywords){
   if(!video) return;
   let result = [];
   const hashtag_matcher = /#[^\s]+/g;
+  // リストタイトル検出
   const findplaylist = (title) => Array.from(playlists).find((list) => list.snippet.title == title);
   if(video.snippet.title.includes("：")){
     const title = video.snippet.title.split("：")[0];
     const item = findplaylist(title);
     if(item) result.push(item);
   }
+  // ハッシュタグ検出
   let m = video.snippet.description.match(hashtag_matcher);
   if(m){
     m.forEach((tag) => {
